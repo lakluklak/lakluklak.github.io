@@ -1,0 +1,40 @@
+.model {
+	line-height: 1.5em;
+	position: relative;
+	margin: 1rem;
+	padding: 1rem;
+	border-radius: var(--border-radius);
+	background: var(--card-bg);
+	box-shadow: var(--card-bs);
+	padding-top: 0;
+}
+
+.model-header {
+	text-align: center;
+	letter-spacing: 0.1em;
+	text-shadow: 1px 1px 1px #000000;
+}
+
+.model-log {
+	display: flex;
+	flex-direction: column;
+}
+
+.model-log p {
+	margin: 0;
+	margin-bottom: 1rem;
+	padding: 1rem;
+	border-radius: var(--border-radius);
+	background: #1e1e1e;
+}
+
+.model-buttons {
+	display: flex;
+	justify-content: center;
+	gap: 1rem;
+}
+
+.model-buttons > cyber-link {
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+}

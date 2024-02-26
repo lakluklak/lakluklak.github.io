@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>mdx-view</title>
+    <link rel='shortcut icon' type='image/png' href='../favicon.png'>
+    <link rel='stylesheet' type='text/css' href='main.css'>
+    <script src='main.mjs' type='module' defer></script>
+</head>
+<body>
+<div class='container'>
+    <div class='inner'>
+        <canvas id='canvas'></canvas>
+    </div>
+    <div class='controls'>
+        <label>Team color <input type='color' id='color' value='#ff0000'></label>
+        <label>Animation <select id='select'>
+            <option>None</option>
+        </select></label>
+        <label>Target z <input type='range' id='targetZ' value='50' min='0' max='200'></label>
+        <label>Camera distance <input type='range' id='distance' value='500' min='100' max='1000'></label>
+        <label>Wireframe <input type='checkbox' id='wireframe'></label>
+        <fieldset class='skeleton-group'>
+            <label>Show skeleton <input type='checkbox' id='show_skeleton'></label>
+            <label>Skeleton nodes <select id='skeleton' disabled>
+                <option value='*'>All</option>
+            </select></label>
+        </fieldset>
+    </div>
+</div>
+</body>
+</html>
