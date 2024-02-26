@@ -1,0 +1,13 @@
+{
+  "name": "warodel",
+  "version": "1.0.9",
+  "private": false,
+  "keywords": [],
+  "author": "nazarpunk <nazarpunk@gmail.com>",
+  "contributors": [],
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "@ltd/j-toml": "^1.38.0"
+  }
+}

@@ -1,0 +1,22 @@
+.card {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	padding: 1rem;
+	background: var(--card-bg);
+	box-shadow: var(--card-bs);
+	gap: 2rem;
+}
+
+.wrap {
+	position: relative;
+	overflow: hidden;
+	gap: 1rem
+}
+
+.card img {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
