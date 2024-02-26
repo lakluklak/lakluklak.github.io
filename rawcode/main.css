@@ -1,0 +1,134 @@
+.container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin: 0 auto;
+    gap: 2rem;
+}
+
+.rawcode-input {
+    --ipv: 4px;
+    --iph: 16px;
+    --ils: 6px;
+    --br: 3px;
+}
+
+.prefix {
+    letter-spacing: 0;
+    color: #535353;
+}
+
+[contenteditable] {
+    white-space: nowrap;
+    outline: none;
+}
+
+.rawcode-input_container {
+    font: 2rem/3rem Monaco, monospace;
+    display: flex;
+    padding: var(--ipv) calc(var(--iph) - var(--ils)) var(--ipv) var(--iph);
+    transition: border-color 400ms ease-in-out;
+    letter-spacing: var(--ils);
+    border: 1px solid gray;
+    border-radius: var(--br);
+    background-color: #1e1e1e;
+}
+
+.rawcode-input_container:focus-within {
+    border-color: #0089ff;
+}
+
+input:focus {
+    outline: none;
+}
+
+.copy {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: var(--m) 0 var(--m) var(--m);
+    padding: 0 9px;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 200ms ease-in-out;
+    border-radius: var(--br);
+    background-color: #464646;
+    --m: calc(var(--iph) - var(--ils) - var(--ipv));
+}
+
+.copy:hover {
+    background-color: #575757;
+}
+
+.copy svg {
+    height: 20px;
+    pointer-events: none;
+}
+
+.copy:active svg {
+    transform: translateY(1px);
+}
+
+.copy:after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    content: "";
+    transition: all 0.5s;
+    opacity: 0;
+    border-radius: var(--br);
+    box-shadow: 0 0 10px 20px rgba(255, 255, 255, 0.5);
+}
+
+.copy:active:after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: 0s;
+    opacity: 1;
+    box-shadow: 0 0 0 0 white;
+}
+
+.exists {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 1rem;
+    border-radius: 8px;
+    background: #464646;
+    box-shadow: rgba(0, 0, 0, 0.07) 0 1px 2px, rgba(0, 0, 0, 0.07) 0 2px 4px, rgba(0, 0, 0, 0.07) 0 4px 8px, rgba(0, 0, 0, 0.07) 0 8px 16px, rgba(0, 0, 0, 0.07) 0 16px 32px, rgba(0, 0, 0, 0.07) 0 32px 64px;
+    gap: 1rem;
+}
+
+.exists:empty {
+    display: none;
+}
+
+.exist-file {
+    font-size: 2rem;
+    white-space: nowrap;
+    color: #ff00cb;
+    text-shadow: 2px 2px black;
+}
+
+.exist-raw {
+    font-size: 4rem;
+    font-weight: bold;
+    line-height: 4rem;
+    text-align: center;
+    white-space: nowrap;
+    letter-spacing: 5px;
+    color: #121212;
+    text-shadow: -1px 1px 0 #41ba45,
+    1px 1px 0 #c63d2b,
+    1px -1px 0 #42afac,
+    -1px -1px 0 #c6c23f;
+}
+
+.exist-name {
+
+}

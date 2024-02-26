@@ -1,0 +1,12 @@
+textarea {
+    width: 100%;
+    resize: vertical;
+}
+
+.badges {
+    display: flex;
+    gap: 1rem;
+    position: sticky;
+    top: 1rem;
+    z-index: 10;
+}
