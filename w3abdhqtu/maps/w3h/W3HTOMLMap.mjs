@@ -1,0 +1,32 @@
+/** @type {Object.<string, W3ABDHQTUTOMLMapProperty>} */
+const map = {
+	fnam: {type: 3, name: `(string) EditorName: Name (Editor Only)`},
+	fnsf: {type: 3, name: `(string) EditorSuffix: Editor Suffix`},
+	ftip: {type: 3, name: `(string) Bufftip: Tooltip`},
+	fube: {type: 3, name: `(string) Buffubertip: Tooltip - Extended`},
+	feff: {type: 0, name: `(bool) isEffect: Is an Effect`, singleline : true},
+	frac: {type: 3, name: `(unitRace) race: Race`, singleline : true},
+	fart: {type: 3, name: `(icon) Buffart: Icon`, singleline : true},
+	ftat: {type: 3, name: `(modelList) TargetArt: Target`, singleline : true},
+	fsat: {type: 3, name: `(modelList) SpecialArt: Special`, singleline : true},
+	feat: {type: 3, name: `(modelList) EffectArt: Effect`, singleline : true},
+	flig: {type: 3, name: `(lightningEffect) LightningEffect: Lightning`, singleline : true},
+	fmat: {type: 3, name: `(modelList) Missileart: Missile Art`, singleline : true},
+	fmsp: {type: 0, name: `(int) Missilespeed: Missile Speed`, singleline : true},
+	fmac: {type: 2, name: `(unreal) Missilearc: Missile Arc`, singleline : true},
+	fmho: {type: 0, name: `(bool) MissileHoming: Missile Homing Enabled`, singleline : true},
+	ftac: {type: 0, name: `(int) Targetattachcount: Target Attachments`, singleline : true},
+	fta0: {type: 3, name: `(stringList) Targetattach: Target Attachment Point 1`, singleline : true},
+	fta1: {type: 3, name: `(stringList) Targetattach1: Target Attachment Point 2`, singleline : true},
+	fta2: {type: 3, name: `(stringList) Targetattach2: Target Attachment Point 3`, singleline : true},
+	fta3: {type: 3, name: `(stringList) Targetattach3: Target Attachment Point 4`, singleline : true},
+	fta4: {type: 3, name: `(stringList) Targetattach4: Target Attachment Point 5`, singleline : true},
+	fta5: {type: 3, name: `(stringList) Targetattach5: Target Attachment Point 6`, singleline : true},
+	feft: {type: 3, name: `(stringList) Effectattach: Effect Attachment Point`, singleline : true},
+	fspt: {type: 3, name: `(stringList) Specialattach: Special Attachment Point`, singleline : true},
+	fefs: {type: 3, name: `(soundLabel) Effectsound: Effect Sound`, singleline : true},
+	fefl: {type: 3, name: `(soundLabel) Effectsoundlooped: Effect Sound (Looping)`, singleline : true},
+	fspd: {type: 0, name: `(spellDetail) Spelldetail: Required Spell Detail`, singleline : true},
+
+};
+export default map;

@@ -1,0 +1,90 @@
+{
+  "formatVersion": 31,
+  "saveCount": 16,
+  "editorVersion": 6115,
+  "gameVersion": [
+    1,
+    36,
+    0,
+    20257
+  ],
+  "name": "TRIGSTR_001",
+  "author": "TRIGSTR_006",
+  "description": "TRIGSTR_005",
+  "playersDescription": "TRIGSTR_004",
+  "cameraBounds": [
+    -1536,
+    -1792,
+    1536,
+    1792,
+    -1536,
+    1792,
+    1536,
+    -1792
+  ],
+  "unbound": [
+    0,
+    0,
+    0,
+    0,
+    32,
+    32
+  ],
+  "flags": 39952,
+  "landscape": "Z",
+  "loadscreen": 24,
+  "loadscreenPath": "",
+  "loadscreenText": "TRIGSTR_009",
+  "loadscreenHead": "TRIGSTR_007",
+  "loadscreenSubHead": "TRIGSTR_008",
+  "gameData": 0,
+  "prologuePath": "",
+  "prologueText": "",
+  "prologueHead": "",
+  "prologueSubHead": "",
+  "fog": 0,
+  "fogStartZ": 3000,
+  "fogEndZ": 5000,
+  "fogDensity": 0.5,
+  "fogColor": [
+    0,
+    0,
+    0,
+    255
+  ],
+  "weather": 0,
+  "sound": "",
+  "light": 0,
+  "waterColor": [
+    255,
+    255,
+    255,
+    255
+  ],
+  "lua": true,
+  "unknownA": 2,
+  "unknownB": 1,
+  "players": [
+    {
+      "number": 0,
+      "type": 1,
+      "race": 1,
+      "fixed": 0,
+      "name": "TRIGSTR_002",
+      "x": 1280,
+      "y": 448,
+      "lowPrio": 0,
+      "hightPrio": 0,
+      "unknownA": 0,
+      "unknownB": 0
+    }
+  ],
+  "clans": [
+    {
+      "flag": 0,
+      "players": 4294967295,
+      "name": "TRIGSTR_003"
+    }
+  ],
+  "upgrades": []
+}
