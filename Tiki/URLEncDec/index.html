@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URL Decoder/Encoder</title>
+  <link rel="shortcut icon" type="image/png" href="favicon.png">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-image: linear-gradient(to right, #a1c4fd, #c2e9fb);
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 50px auto;
+      background-color: white;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-top: 0;
+    }
+
+    textarea, button, input[type="checkbox"] {
+      margin: 10px;
+      padding: 10px 15px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    textarea {
+      background-color: #f5f5f5;
+      border: 1px solid #ddd;
+      width: 100%;
+      box-sizing: border-box;
+      transition: box-shadow 0.3s;
+    }
+
+    textarea:focus {
+      outline: none;
+      box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    input[type="checkbox"] {
+      accent-color: #007bff;
+      cursor: pointer;
+    }
+
+    .checkbox-label {
+      display: inline-block;
+      font-weight: 600;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+      font-size: 14px;
+      color: #333;
+    }
+
+    li {
+      margin-bottom: 10px;
+    }
+
+    .footer {
+      border-top: 1px solid #000;
+      color: #999;
+      font: italic 75% sans-serif;
+      margin-top: 20px;
+    }
+
+    .footer p {
+      margin: 0 0 1em 0;
+    }
+
+    .footer img {
+      float: right;
+      margin: 0 0 0.5em 2em;
+    }
+  </style>
+  <script>
+    function encode() {
+      var obj = document.getElementById('dencoder');
+      var unencoded = obj.value;
+      obj.value = encodeURIComponent(unencoded).replace(/'/g, "%27").replace(/"/g, "%22");
+    }
+
+    function decode() {
+      var obj = document.getElementById('dencoder');
+      var encoded = obj.value;
+      obj.value = decodeURIComponent(encoded.replace(/\+/g, " "));
+
+      if (document.getElementById("autoCopy").checked) {
+        navigator.clipboard.writeText(obj.value);
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h1>URL Decoder/Encoder</h1>
+    <textarea autofocus cols="100" rows="20" id="dencoder" placeholder="Enter URL To Enc/Decode"></textarea>
+    <div>
+      <button onclick="decode()">Decode</button>
+      <button onclick="encode()">Encode</button>
+      <label class="checkbox-label">
+        <input type="checkbox" id="autoCopy" checked>Copy on Decode
+      </label>
+    </div>
+    <ul>
+      <li>Input a string of text and encode or decode it as you like.</li>
+      <li>Handy for turning encoded JavaScript URLs from complete gibberish into readable gibberish.</li>
+      <li>If you'd like to have the URL Decoder/Encoder for offline use, just view source and save to your hard drive.</li>
+      <li>A little "Copy on convert" checkbox added for more convenient while mapping. (Tick checkbox and press "Decode" button, text will automatic copy to your clipboard)</li>
+    </ul>
+    <div class="footer">
+      <img alt="Creative Commons License" border="0" src="//creativecommons.org/images/public/somerights.gif">
+      <p>
+        The URL Decoder/Encoder is licensed under a Creative Commons <a href="http://creativecommons.org/licenses/by-sa/2.0/" rel="license">Attribution-ShareAlike 2.0</a> License.
+      </p>
+      <p>
+        This tool is provided without warranty, guarantee, or much in the way of explanation. Note that use of this tool may or may not crash your browser, lock up your machine, erase your hard drive, or e-mail those naughty pictures you hid in the Utilities folder to your mother. Don't blame me if anything bad happens to you, because it's actually the aliens' fault. The code expressed herein is solely that of the author, and he's none too swift with the JavaScript, if you know what we mean, so it's likely to cause giggle fits in anyone who knows what they're doing. Not a flying toy. Thank you for playing. Insert coin to continue.
+      </p>
+    </div>
+  </div>
+</body>
+</html>
