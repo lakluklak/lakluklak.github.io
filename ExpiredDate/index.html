@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tính hạn sử dụng còn lại</title>
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f0f0;
+      background-image: linear-gradient(to right, #a1c4fd, #c2e9fb);
+    }
+    
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+    }
+    
+    h1 {
+      margin-top: 0;
+      color: #333;
+    }
+    
+    input, button {
+      margin: 10px;
+      padding: 10px 15px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    input {
+      background-color: #f5f5f5;
+      border: 1px solid #ddd;
+      transition: box-shadow 0.3s;
+    }
+    
+    input:focus {
+      outline: none;
+      box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+    }
+    
+    button {
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    button:hover {
+      background-color: #0056b3;
+    }
+    
+    #result {
+      font-size: 20px;
+      font-weight: bold;
+      margin-top: 20px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Tính hạn sử dụng còn lại</h1>
+    <label for="production-date">Ngày sản xuất:</label>
+    <input type="date" id="production-date">
+    <label for="expiry-date">Ngày hết hạn:</label>
+    <input type="date" id="expiry-date">
+    <button onclick="calculateRemainingLife()">Tính toán</button>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    function calculateRemainingLife() {
+      var productionDateInput = document.getElementById("production-date");
+      var expiryDateInput = document.getElementById("expiry-date");
+      var productionDate = new Date(productionDateInput.value);
+      var expiryDate = new Date(expiryDateInput.value);
+      var today = new Date();
+
+      if (expiryDate < today) {
+        document.getElementById("result").textContent = "Sản phẩm đã hết hạn sử dụng.";
+      } else if (productionDate > expiryDate) {
+        document.getElementById("result").textContent = "Ngày sản xuất không hợp lệ.";
+      } else {
+        var remainingDays = Math.ceil((expiryDate - today) / (1000 * 60 * 60 * 24));
+        var totalLifeDays = Math.ceil((expiryDate - productionDate) / (1000 * 60 * 60 * 24));
+        var remainingPercent = (remainingDays / totalLifeDays) * 100;
+
+        document.getElementById("result").textContent = "Sản phẩm còn " + remainingDays + " ngày hạn sử dụng (" + remainingPercent.toFixed(2) + "% tổng thời gian sử dụng).";
+      }
+    }
+  </script>
+</body>
+</html>
