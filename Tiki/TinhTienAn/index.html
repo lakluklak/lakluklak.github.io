@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculate Individual Amounts</title>
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            background-image: linear-gradient(to right, #a1c4fd, #c2e9fb);
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+        }
+        
+        h1 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        input, button {
+            margin: 10px;
+            padding: 10px 15px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        input {
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            transition: box-shadow 0.3s;
+        }
+        
+        input:focus {
+            outline: none;
+            box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+        }
+        
+        button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #0056b3;
+        }
+        
+        #result {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #333;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>BẢNG TÍNH TIỀN ĂN/MUA ĐỒ</h1>
+        <label for="totalPeople">Số lượng người tham gia:</label>
+        <input type="number" id="totalPeople" min="1" required>
+        <button onclick="generateInputFields()">Generate</button>
+        <table id="inputTable">
+            <tr>
+                <th>Người</th>
+                <th>Giá trị sản phẩm (đ)</th>
+                <th>Số lượng sản phẩm</th>
+            </tr>
+        </table>
+        <button onclick="calculateAmount()">Calculate</button>
+        <div id="result"></div>
+
+<script>
+    function generateInputFields() {
+        var totalPeople = parseInt(document.getElementById("totalPeople").value);
+        var inputTable = document.getElementById("inputTable");
+        inputTable.innerHTML = "<tr><th>Người</th><th>Giá trị sản phẩm (đ)</th><th>Số lượng sản phẩm</th></tr>";
+
+        for (var i = 1; i <= totalPeople; i++) {
+            var row = document.createElement("tr");
+            var personCell = document.createElement("td");
+            personCell.textContent = "Người " + i;
+            var priceCell = document.createElement("td");
+            var priceInput = document.createElement("input");
+            priceInput.type = "number";
+            priceInput.id = "person" + i + "Price";
+            priceInput.min = "0";
+            priceInput.required = true;
+            priceCell.appendChild(priceInput);
+            var quantityCell = document.createElement("td");
+            var quantityInput = document.createElement("input");
+            quantityInput.type = "number";
+            quantityInput.id = "person" + i + "Quantity";
+            quantityInput.min = "1";
+            quantityInput.required = true;
+            quantityCell.appendChild(quantityInput);
+            row.appendChild(personCell);
+            row.appendChild(priceCell);
+            row.appendChild(quantityCell);
+            inputTable.appendChild(row);
+        }
+
+        var serviceFeeTr = document.createElement("tr");
+        var serviceFeeCell = document.createElement("td");
+        serviceFeeCell.textContent = "Phí dịch vụ (đ)";
+        serviceFeeCell.colSpan = "2";
+        var serviceFeeInput = document.createElement("input");
+        serviceFeeInput.type = "number";
+        serviceFeeInput.id = "serviceFee";
+        serviceFeeInput.min = "0";
+        serviceFeeInput.required = true;
+        serviceFeeCell.appendChild(serviceFeeInput);
+        serviceFeeTr.appendChild(serviceFeeCell);
+        inputTable.appendChild(serviceFeeTr);
+
+        var discountTr = document.createElement("tr");
+        var discountCell = document.createElement("td");
+        discountCell.textContent = "Giảm giá (đ)";
+        discountCell.colSpan = "2";
+        var discountInput = document.createElement("input");
+        discountInput.type = "number";
+        discountInput.id = "discount";
+        discountInput.min = "0";
+        discountInput.required = true;
+        discountCell.appendChild(discountInput);
+        discountTr.appendChild(discountCell);
+        inputTable.appendChild(discountTr);
+    }
+
+    function calculateAmount() {
+        var totalPeople = parseInt(document.getElementById("totalPeople").value);
+        var serviceFee = parseInt(document.getElementById("serviceFee").value);
+        var discount = parseInt(document.getElementById("discount").value);
+        var result = "";
+
+        for (var i = 1; i <= totalPeople; i++) {
+            var personPrice = parseInt(document.getElementById("person" + i + "Price").value);
+            var personQuantity = parseInt(document.getElementById("person" + i + "Quantity").value);
+            var personAmount = (((personPrice * personQuantity) + (serviceFee / totalPeople)) - (discount / totalPeople)).toFixed(2);
+            result += "Người " + i + ": " + personAmount + " đ<br>";
+        }
+
+        document.getElementById("result").innerHTML = "Số tiền mỗi người cần phải trả:<br>" + result;
+    }
+</script>
+    </div>
+</body>
+</html>
