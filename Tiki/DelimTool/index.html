@@ -83,18 +83,16 @@
   <div class="container">
     <h1>Công Cụ Chuyển Đổi Dữ Liệu Comma</h1>
     <label for="columnData">Column Data:</label>
-    <textarea id="columnData" placeholder="Điền data hàng dọc vào đây..."></textarea>
+    <textarea id="columnData" placeholder="Paste data hàng dọc vào đây..." oninput="convertData()"></textarea>
     <label for="delimiter">Chuyển Đổi Thành:</label>
-    <select id="delimiter">
+    <select id="delimiter" onchange="convertData()">
       <option value="comma">Comma (,)</option>
       <option value="semicolon">Semicolon (;)</option>
       <option value="pipe">Vertical Bar (|)</option>
       <option value="space">Spaces</option>
       <option value="newline">New Line</option>
     </select>
-    <button onclick="convertData()">Chuyển Đổi</button>
-    <button onclick="convertBack()">Chuyển Ngược Về Column</button>
-    <textarea id="output" placeholder="Điền data hàng dọc vào đây..."></textarea>
+    <textarea id="output" placeholder="Kết quả sẽ trả ra tại đây..."></textarea>
 
     <script>
       function convertData() {
@@ -115,12 +113,6 @@
         }
 
         document.getElementById("output").textContent = delimitedData;
-      }
-
-      function convertBack() {
-        var delimitedData = document.getElementById("output").textContent.trim();
-        var columnData = delimitedData.replace(/,/g, "\n");
-        document.getElementById("columnData").value = columnData;
       }
     </script>
   </div>
