@@ -13,7 +13,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh; /* Thay đổi từ height thành min-height */
     }
 
     .container {
@@ -23,6 +23,7 @@
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
       width: 90%;
       max-width: 800px;
+      overflow: hidden; /* Ngăn chặn nội dung container tràn ra ngoài */
     }
 
     h1 {
@@ -88,7 +89,7 @@
 
     .person-fields {
       margin-top: 20px;
-      max-height: 300px; /* Adjust this value to control the height of the scrollable area */
+      max-height: 600px; /* Điều chỉnh chiều cao tối đa để cuộn lên xuống */
       overflow-y: auto;
       border: 1px solid #ccc;
       padding: 10px;
