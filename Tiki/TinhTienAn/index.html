@@ -18,17 +18,17 @@
 
     .container {
       background-color: #fff;
-      padding: 20px 30px;
+      padding: 20px;
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      max-width: 400px;
-      width: 100%;
-      text-align: center;
+      width: 90%;
+      max-width: 800px;
     }
 
     h1 {
       margin-bottom: 20px;
       color: #333;
+      text-align: center;
     }
 
     label {
@@ -38,8 +38,8 @@
       color: #555;
     }
 
-    input[type="number"] {
-      width: calc(100% - 10px);
+    input[type="number"], input[type="text"] {
+      width: calc(100% - 20px);
       padding: 10px;
       margin-bottom: 15px;
       border: 1px solid #ccc;
@@ -57,6 +57,7 @@
       font-size: 16px;
       margin-top: 10px;
       transition: background-color 0.3s ease;
+      width: 100%;
     }
 
     button:hover {
@@ -67,11 +68,15 @@
       margin-top: 20px;
       font-size: 18px;
       color: #333;
+      text-align: center;
+      white-space: pre-line;
     }
 
     .person-field {
+      display: flex;
+      justify-content: space-between;
       margin-bottom: 10px;
-      text-align: left;
+      gap: 10px;
     }
 
     .person-field label {
@@ -80,25 +85,35 @@
       font-weight: normal;
       color: #666;
     }
+
+    .person-fields {
+      margin-top: 20px;
+      max-height: 300px; /* Adjust this value to control the height of the scrollable area */
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 5px;
+      background-color: #fafafa;
+    }
+
+    .person-fields div {
+      flex: 1;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Chia Tiền Mua Đồ</h1>
-
-    <label for="serviceFee">Phí Dịch Vụ (đồng):</label>
-    <input type="number" id="serviceFee" min="0" required>
-
-    <label for="discount">Giảm Giá (đồng):</label>
-    <input type="number" id="discount" min="0" required>
-
-    <label for="participants">Số Lượng Người Tham Gia Mua Hàng:</label>
-    <input type="number" id="participants" min="1" required onchange="createPersonFields()">
-
-    <div id="personFields"></div>
-
+    <div class="input-group">
+      <label for="serviceFee">Phí Dịch Vụ (đồng):</label>
+      <input type="number" id="serviceFee" min="0" required>
+      <label for="discount">Giảm Giá (đồng):</label>
+      <input type="number" id="discount" min="0" required>
+      <label for="participants">Số Lượng Người Tham Gia Mua Hàng:</label>
+      <input type="number" id="participants" min="1" required onchange="createPersonFields()">
+    </div>
     <button onclick="calculate()">Tính Toán</button>
-
+    <div class="person-fields" id="personFields"></div>
     <div id="result"></div>
   </div>
 
@@ -113,15 +128,24 @@
         var fieldSet = document.createElement("div");
         fieldSet.className = "person-field";
 
-        var label = document.createElement("label");
-        label.innerHTML = "Giá trị vật phẩm của Người " + (i + 1) + " (đồng):";
-        fieldSet.appendChild(label);
+        var nameLabel = document.createElement("label");
+        nameLabel.innerHTML = "Tên Người " + (i + 1) + ":";
+        fieldSet.appendChild(nameLabel);
 
-        var input = document.createElement("input");
-        input.type = "number";
-        input.min = "0";
-        input.className = "person-value";
-        fieldSet.appendChild(input);
+        var nameInput = document.createElement("input");
+        nameInput.type = "text";
+        nameInput.className = "person-name";
+        fieldSet.appendChild(nameInput);
+
+        var valueLabel = document.createElement("label");
+        valueLabel.innerHTML = "Giá Trị (đồng):";
+        fieldSet.appendChild(valueLabel);
+
+        var valueInput = document.createElement("input");
+        valueInput.type = "number";
+        valueInput.min = "0";
+        valueInput.className = "person-value";
+        fieldSet.appendChild(valueInput);
 
         personFields.appendChild(fieldSet);
       }
@@ -131,19 +155,21 @@
       var serviceFee = parseFloat(document.getElementById("serviceFee").value);
       var discount = parseFloat(document.getElementById("discount").value);
       var participants = parseInt(document.getElementById("participants").value);
+      var personNames = document.getElementsByClassName("person-name");
       var personValues = document.getElementsByClassName("person-value");
 
       var amounts = [];
 
       for (var i = 0; i < participants; i++) {
+        var name = personNames[i].value;
         var value = parseFloat(personValues[i].value);
         var amount = value + (serviceFee / participants) - (discount / participants);
-        amounts.push(amount.toFixed(2));
+        amounts.push({ name: name, amount: amount.toFixed(2) });
       }
 
       var resultText = "";
       for (var i = 0; i < participants; i++) {
-        resultText += "Số tiền Người " + (i + 1) + " cần trả: " + amounts[i] + " đồng\n";
+        resultText += "Số tiền " + amounts[i].name + " cần trả: " + amounts[i].amount + " đồng\n";
       }
 
       document.getElementById("result").innerText = resultText;
