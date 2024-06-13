@@ -71,11 +71,17 @@
       background-color: #0056b3;
     }
 
-    #output {
-      font-size: 18px;
-      font-weight: bold;
-      margin-top: 20px;
-      color: #333;
+    .popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 20px;
+      border-radius: 5px;
+      z-index: 1000;
     }
   </style>
 </head>
@@ -92,7 +98,11 @@
       <option value="space">Spaces</option>
       <option value="newline">New Line</option>
     </select>
-    <textarea id="output" placeholder="Kết quả sẽ trả ra tại đây..."></textarea>
+    <textarea id="output" onclick="copyOutput()" readonly>Kết quả sẽ trả ra tại đây...</textarea>
+
+    <div id="copyPopup" class="popup">
+      Đã sao chép nội dung!
+    </div>
 
     <script>
       function convertData() {
@@ -113,6 +123,21 @@
         }
 
         document.getElementById("output").textContent = delimitedData;
+      }
+	  
+	   function copyOutput() {
+        var output = document.getElementById("output");
+        output.select();
+        document.execCommand("copy");
+
+        // Show the copy popup
+        var copyPopup = document.getElementById("copyPopup");
+        copyPopup.style.display = "block";
+
+        // Hide the popup after 1.5 seconds
+        setTimeout(function() {
+          copyPopup.style.display = "none";
+        }, 1500);
       }
     </script>
   </div>
