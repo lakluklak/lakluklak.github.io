@@ -38,14 +38,9 @@
             if (file) {
                 const worker = Tesseract.createWorker();
 
-                console.log('Worker loaded'); // In thông tin debug
-                await worker.load();
-
-                console.log('Language loaded'); // In thông tin debug
-                await worker.loadLanguage('eng');
-
-                console.log('Worker initialized'); // In thông tin debug
-                await worker.initialize('eng');
+                await worker.load(); 
+                await worker.loadLanguage('eng'); // Load English language data
+                await worker.initialize('eng'); // Initialize worker
 
                 const { data: { text } } = await worker.recognize(file);
                 document.getElementById('extractedText').textContent = text;
