@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Công cụ Trích xuất Văn bản từ Hình ảnh</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    input[type="file"] {
+      margin-bottom: 20px;
+    }
+    #output {
+      font-size: 18px;
+      margin-top: 20px;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <h1>Trích xuất Văn bản từ Hình ảnh</h1>
+  <input type="file" id="image-input" accept="image/*">
+  <button onclick="extractText()">Trích xuất Văn bản</button>
+  <div id="output"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/tesseract-js@0.0.1/lib/tesseract.min.js"></script>
+  <script>
+    async function extractText() {
+      const imageInput = document.getElementById('image-input');
+      const file = imageInput.files[0];
+      if (file) {
+        const img = new Image();
+        img.src = URL.createObjectURL(file);
+        img.onload = function() {
+          Tesseract.recognize(
+            img,
+            'vie',
+            { logger: m => console.log(m) }
+          ).then(({ data: { text } }) => {
+            document.getElementById('output').textContent = text;
+          });
+        };
+      }
+    }
+  </script>
+</body>
+</html>
