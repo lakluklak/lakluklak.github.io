@@ -5,16 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trích xuất văn bản từ hình ảnh</title>
     <style>
-        /* Thêm một chút CSS để làm đẹp trang web */
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
             text-align: center;
         }
-        #text-output {
+        #text-output, #progress-bar {
             margin-top: 20px;
             border: 1px solid #ddd;
             padding: 10px;
+        }
+        #progress {
+            width: 0%;
+            background: green;
+            height: 20px;
+            color: white;
+            text-align: center;
         }
     </style>
 </head>
@@ -22,27 +28,39 @@
     <h1>Trích xuất văn bản từ hình ảnh</h1>
     <input type="file" id="image-input" accept="image/*" />
     <button onclick="convertImage()">Chuyển đổi</button>
+    <div id="progress-bar"><div id="progress">0%</div></div>
     <div id="text-output"></div>
 
-    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@2.1.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.1.0/dist/tesseract.min.js"></script>
     <script>
         function convertImage() {
             const image = document.getElementById('image-input').files[0];
             if (image) {
+                // Chỉ định nhiều ngôn ngữ: tiếng Anh, tiếng Việt, và tiếng Pháp
                 Tesseract.recognize(
                     image,
-                    'eng', // Sử dụng 'vie' cho tiếng Việt; bạn có thể thêm ngôn ngữ khác tùy nhu cầu
+                    'eng+vie+fra', // Cập nhật ngôn ngữ tại đây
                     {
-                        logger: m => console.log(m) // In tiến trình ra console
+                        logger: m => updateProgress(m)
                     }
                 ).then(({ data: { text } }) => {
                     document.getElementById('text-output').innerText = text;
+                    document.getElementById('progress').style.width = '100%';
+                    document.getElementById('progress').innerText = 'Hoàn thành!';
                 })
                 .catch(error => {
                     console.error(error);
                 });
             } else {
                 alert('Vui lòng chọn một hình ảnh.');
+            }
+        }
+
+        function updateProgress(message) {
+            if (message.status === 'recognizing text') {
+                const progress = Math.round(message.progress * 100);
+                document.getElementById('progress').style.width = `${progress}%`;
+                document.getElementById('progress').innerText = `${progress}%`;
             }
         }
     </script>
