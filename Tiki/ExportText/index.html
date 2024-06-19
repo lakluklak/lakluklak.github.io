@@ -36,22 +36,17 @@
         async function extractText(input) {
             const file = input.files[0];
             if (file) {
-                const worker = createWorker();
-                await worker.load();
-                await worker.loadLanguage('eng');
-                await worker.initialize('eng');
+                const worker = Tesseract.createWorker();
+
+                await worker.load(); 
+                await worker.loadLanguage('eng'); // Load English language data
+                await worker.initialize('eng'); // Initialize worker
 
                 const { data: { text } } = await worker.recognize(file);
                 document.getElementById('extractedText').textContent = text;
 
                 await worker.terminate();
             }
-        }
-
-        function createWorker() {
-            return Tesseract.createWorker({
-                logger: m => console.log(m) // Add this line to see internal logs
-            });
         }
     </script>
 </body>
