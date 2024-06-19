@@ -5,13 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lakluklak's GITHUB</title>
   <link rel="shortcut icon" type="image/png" href="favicon.png">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <style>
     body {
-      font-family: 'Poppins', sans-serif;
+      font-family: 'Montserrat', sans-serif;
       margin: 0;
       padding: 0;
       background-image: linear-gradient(to right, #a1c4fd, #c2e9fb);
+      color: #333;
+      opacity: 0;
+      transform: scale(0.95);
+      transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+      transform-origin: center center;
     }
     
     .container {
@@ -25,8 +31,9 @@
     
     h1 {
       text-align: center;
-      color: #333;
+      color: #007bff;
       margin-top: 0;
+      font-size: 2.5rem;
     }
     
     .link-container {
@@ -41,12 +48,18 @@
       text-decoration: none;
       color: #007bff;
       font-weight: 600;
-      margin-bottom: 10px;
-      transition: color 0.3s;
+      margin-bottom: 15px;
+      transition: color 0.3s, transform 0.3s, box-shadow 0.3s; /* Cập nhật */
+      padding: 8px 16px;
+      border-radius: 5px;
+      background-color: #f5f5f5;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0); /* Cập nhật */
     }
     
-    a:hover {
+    a:hover, a:focus {
       color: #0056b3;
+      transform: scale(1.05);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Cập nhật */
     }
   </style>
 </head>
@@ -60,7 +73,32 @@
       <a href="https://lakluklak.github.io/Tiki/ProductID/">Lấy ID của Sản Phẩm</a>
       <a href="https://lakluklak.github.io/Tiki/TinhTienAn/">Chia Tiền Ăn/Mua Đồ</a>
       <a href="https://lakluklak.github.io/Tiki/DelimTool/">Delim Tool</a>
+      <a href="https://lakluklak.github.io/Tiki/ExportText/">Trích Xuất Văn Bản Từ Hình Ảnh</a>
+      <!-- Thêm các liên kết khác của bạn tại đây -->
     </div>
   </div>
+
+  <script>
+    $(document).ready(function() {
+      $('a').click(function(e) {
+        e.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
+        var targetUrl = $(this).attr('href'); // Lấy URL mục tiêu từ liên kết được nhấp
+        
+        // Thực hiện hiệu ứng fade out
+        $('body').css('opacity', '0');
+        
+        // Sau khi hiệu ứng hoàn tất, chuyển hướng đến URL mục tiêu
+        setTimeout(function() {
+          window.location.href = targetUrl;
+        }, 500); // Đợi 500ms cho hiệu ứng hoàn tất
+      });
+      
+      // Kích hoạt hiệu ứng fade in & scale up khi trang được tải
+      $('body').css({
+        'opacity': '1',
+        'transform': 'scale(1)'
+      });
+    });
+  </script>
 </body>
 </html>
