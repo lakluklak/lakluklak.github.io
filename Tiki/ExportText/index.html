@@ -37,8 +37,8 @@
         img.onload = function() {
           Tesseract.create({
             workerPath: 'https://cdn.jsdelivr.net/npm/@tesseract.js/dist/worker.min.js',
-            langPath: 'https://cdn.jsdelivr.net/npm/@tesseract.js/dist/langs/',
-            corePath: 'https://cdn.jsdelivr.net/npm/@tesseract.js/dist/core.min.js'
+            langPath: 'https://cdn.jsdelivr.net/npm/@tesseract.js/dist/lang/',
+            corePath: 'https://cdn.jsdelivr.net/npm/@tesseract.js/dist/core.js'
           }).then(worker => {
             worker.recognize(img).progress(message => console.log(message)).then(result => {
               document.getElementById('output').textContent = result.text;
