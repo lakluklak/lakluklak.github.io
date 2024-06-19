@@ -36,16 +36,16 @@
         async function extractText(input) {
             const file = input.files[0];
             if (file) {
-                const worker = Tesseract.createWorker();
+                const worker = Tesseract.createWorker(); // Khởi tạo worker
 
-                await worker.load(); 
-                await worker.loadLanguage('eng'); // Load English language data
-                await worker.initialize('eng'); // Initialize worker
+                await worker.load(); // Tải worker
+                await worker.loadLanguage('eng'); // Tải ngôn ngữ
+                await worker.initialize('eng'); // Khởi tạo worker
 
-                const { data: { text } } = await worker.recognize(file);
+                const { data: { text } } = await worker.recognize(file); // Nhận diện văn bản
                 document.getElementById('extractedText').textContent = text;
 
-                await worker.terminate();
+                await worker.terminate(); // Hủy worker
             }
         }
     </script>
