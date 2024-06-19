@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>Tính hạn sử dụng còn lại</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Montserrat', sans-serif;
@@ -10,6 +11,7 @@
       padding: 0;
       background-color: #f0f0f0;
       background-image: linear-gradient(to right, #a1c4fd, #c2e9fb);
+      color: #333;
     }
     
     .container {
@@ -19,11 +21,21 @@
       padding: 30px;
       border-radius: 10px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s ease-in-out;
+    }
+    
+    .container:hover {
+      transform: translateY(-5px);
     }
     
     h1 {
       margin-top: 0;
-      color: #333;
+      color: #007bff;
+      font-weight: 700;
+    }
+    
+    label {
+      font-weight: 500;
     }
     
     input, button {
@@ -33,35 +45,35 @@
       border: none;
       border-radius: 5px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
     }
     
     input {
       background-color: #f5f5f5;
       border: 1px solid #ddd;
-      transition: box-shadow 0.3s;
     }
     
     input:focus {
       outline: none;
-      box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+      border-color: #007bff;
+      box-shadow: 0 0 6px rgba(0, 123, 255, 0.5);
     }
     
     button {
       background-color: #007bff;
       color: white;
       cursor: pointer;
-      transition: background-color 0.3s;
     }
     
     button:hover {
       background-color: #0056b3;
+      transform: scale(1.05);
     }
     
     #result {
       font-size: 20px;
       font-weight: bold;
       margin-top: 20px;
-      color: #333;
     }
   </style>
 </head>
