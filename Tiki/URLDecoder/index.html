@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>URL Decoder</title>
   <link rel="shortcut icon" type="image/png" href="favicon.png">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Poppins', sans-serif;
+      font-family: 'Montserrat', sans-serif;
       margin: 0;
       padding: 0;
       background-image: linear-gradient(to right, #a1c4fd, #c2e9fb);
@@ -21,45 +21,53 @@
       padding: 40px;
       border-radius: 10px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .container:hover {
+      transform: translateY(-5px);
     }
 
     h1 {
       text-align: center;
-      color: #333;
+      color: #007bff;
       margin-top: 0;
+      font-weight: 700;
     }
 
     textarea, button {
-      margin: 10px;
+      margin: 10px 0;
       padding: 10px 15px;
       font-size: 16px;
       border: none;
       border-radius: 5px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      width: 100%; /* Adjust width to fit container */
     }
 
     textarea {
       background-color: #f5f5f5;
       border: 1px solid #ddd;
-      width: 100%;
       box-sizing: border-box;
-      transition: box-shadow 0.3s;
+      transition: box-shadow 0.3s, border-color 0.3s;
     }
 
     textarea:focus {
       outline: none;
-      box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+      border-color: #007bff;
+      box-shadow: 0 0 6px rgba(0, 123, 255, 0.5);
     }
 
     button {
       background-color: #007bff;
       color: white;
       cursor: pointer;
-      transition: background-color 0.3s;
     }
 
     button:hover {
       background-color: #0056b3;
+      transform: scale(1.05);
     }
 
     .checkbox-label {
@@ -129,10 +137,8 @@
       var urlInput = document.getElementById("url-input");
       var decodedURLs = [];
 
-      // Tách các URL từ textarea
       var urls = urlInput.value.split("\n");
 
-      // Giải mã từng URL và lưu vào mảng
       for (var i = 0; i < urls.length; i++) {
         if (urls[i].trim() !== "") {
           var decodedUrl = decodeURIComponent(urls[i].trim());
@@ -140,10 +146,8 @@
         }
       }
 
-      // Cập nhật nội dung textarea với các URL đã giải mã
       urlInput.value = decodedURLs.join("\n");
 
-      // Sao chép tất cả các URL vào clipboard
       navigator.clipboard.writeText(decodedURLs.join("\n"));
     }
   </script>
