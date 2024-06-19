@@ -36,14 +36,9 @@
         async function extractText(input) {
             const file = input.files[0];
             if (file) {
-                const worker = Tesseract.createWorker({
-                    workerPath: 'https://cdn.jsdelivr.net/npm/tesseract.js@5.1.0/dist/worker.min.js',
-                    langPath: 'https://tessdata.projectnaptha.com/4.0.0/vie.traineddata.gz',
-                    corePath: 'https://cdn.jsdelivr.net/npm/tesseract.js-core@v5.1.0',
-                });
-
+                const worker = createWorker();
                 await worker.load();
-                await worker.loadLanguage('eng'); // Load English language data
+                await worker.loadLanguage('eng');
                 await worker.initialize('eng');
 
                 const { data: { text } } = await worker.recognize(file);
@@ -51,6 +46,12 @@
 
                 await worker.terminate();
             }
+        }
+
+        function createWorker() {
+            return Tesseract.createWorker({
+                logger: m => console.log(m) // Add this line to see internal logs
+            });
         }
     </script>
 </body>
