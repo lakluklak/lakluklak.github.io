@@ -36,9 +36,12 @@
         async function extractText(input) {
             const file = input.files[0];
             if (file) {
-                const worker = createWorker();
+                const worker = Tesseract.createWorker({
+                    logger: m => console.log(m)
+                });
+
                 await worker.load();
-                await worker.loadLanguage('eng');
+                await worker.loadLanguage('eng'); // Load English language data
                 await worker.initialize('eng');
 
                 const { data: { text } } = await worker.recognize(file);
@@ -46,12 +49,6 @@
 
                 await worker.terminate();
             }
-        }
-
-        function createWorker() {
-            return Tesseract.createWorker({
-                logger: m => console.log(m) // Add this line to see internal logs
-            });
         }
     </script>
 </body>
