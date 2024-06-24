@@ -1,0 +1,215 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css");
+
+body {
+    color: #333;
+    background-color: #f7f7f7;
+    line-height: 1.5;
+}
+
+.in_progress, .done {
+  color: #C60;
+  border: 1px solid;
+  border-radius: 3px;
+  padding: .1em 0.4em;
+  font-weight: normal;
+  margin-left: .2em;
+  vertical-align: middle;
+  font-size: 0.9em;
+}
+.done { color: #009933; }
+
+@media print {
+    body { color: #000; }
+    .navbar, #intro, input[type="checkbox"], .done, .in_progress { display: none; }
+    a { color: #000; text-decoration: underline; }
+    a[href]:after { content: none !important; }
+    .tab-content > .tab-pane, .pill-content > .pill-pane { display: block; }
+    .tab-pane { page-break-after: always; }
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 22px;
+}
+ul li ul {
+    padding-top: 0;
+}
+
+#title {
+    padding-top: 25px;
+    padding-bottom: 15px;
+    /* font-size: 48px; */
+    color:#000;
+    font-weight: 800;
+}
+
+h3 {
+    margin-bottom: 5;
+    align-content: center;
+
+}
+
+.form-group {
+    margin: 15px;
+}
+
+input[type="checkbox"] {
+    margin-left: -24px;
+}
+
+.checkbox {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.checkbox label {
+    padding-left: 24px;
+    cursor: pointer;
+}
+
+.item_content {
+    padding-left: 10px;
+}
+input[type="checkbox"]:checked + .item_content {
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
+#walkthrough_ps {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-weight: 800;
+    color: #C60;
+}
+
+.progress_title {
+    margin-top: 5px;
+}
+
+span .grace::before {
+    content: "🌟";
+}
+span .grace {
+    color:#C60;
+    padding-right: 2px;
+}
+span .boss {
+    color:purple;
+    padding-right: 2px;
+}
+
+span .npc {
+    color:seagreen;
+    padding-right: 2px;
+}
+
+span.place_en {
+    color:rgb(90, 90, 90);
+    font-size: medium;
+}
+
+#usable {
+    content: "xz🦂 lion🦁 🦇🦍🧙🧡🔭📖💀🐜🏰"
+}
+
+footer {
+    margin-top: 35px;
+    margin-left: 10px;
+    opacity: 0.3;
+    display:inline-block;
+}
+
+/* Filter Buttons */
+.btn-group {
+    margin-bottom: 20px;
+    margin-top: 20px
+}
+.btn-outline-primary:hover {
+    color: #0d6efd;
+    background-color: #dde9fc;
+    border-color: #0d6efd;
+}
+.btn-outline-dark:hover {
+    color: black;
+    background-color: #dde9fc;
+    border-color: black;
+}
+
+li.cut_content span{
+    color: rgb(121, 52, 52);
+    opacity: 0.9;
+}
+
+html:lang(zh) li.cut_content span::after {
+    font-weight: 600;
+    content: " (无法获得)";
+}
+
+html:lang(en) li.cut_content span::after {
+    font-weight: 600;
+    content: " (Unobtainable)";
+}
+
+html:lang(zh) li.legendary span::after {
+    color:#C60;
+    content: " (传说)";
+    text-shadow: 1px 1px yellow;
+}
+
+html:lang(en) li.legendary span::after {
+    color:#C60;
+    content: " (Legendary)";
+    text-shadow: 1px 1px yellow;
+}
+
+li.dlc01 span::after {
+    color: #4CAF50; 
+    content: " (DLC)";
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); 
+    padding: 2px 0;
+}
+
+
+input[type="checkbox"]:checked ~ .bi-eye-slash, input[type="checkbox"]:checked ~ * > .bi-eye-slash {
+    display: none;
+}
+
+input[type="checkbox"]:checked ~ .bi-eye, input[type="checkbox"]:checked ~ * > .bi-eye {
+    display: inline;
+}
+
+input[type="checkbox"] ~ .bi-eye, input[type="checkbox"] ~ * > .bi-eye {
+    display: none;
+}
+
+.hide-complete {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}
+
+.card-title{
+    font-weight: 600;
+}
+
+.text-thanks {
+    font-size: larger;
+    line-height: 1.8;
+}
+
+.highlight {
+    font-weight: bold;
+    background-color: #FFFF88;
+}
+
+.language-switch {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.dlc-title {
+    color: #4CAF50; /* Green color to signify 'Shadow of the Erdtree' */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    padding: 2px 0; /* Small padding for better visual separation */
+}
