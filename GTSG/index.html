@@ -27,20 +27,16 @@
             text-align: center;
         }
 
-        #funnyText {
+        #funnyText, #subText {
             position: absolute;
             color: #61dafb;
-            font-size: 4rem;
+            font-size: calc(2rem + 2vw); /* Responsive font size */
             cursor: pointer;
             user-select: none;
         }
 
         #subText {
-            position: absolute;
-            color: #61dafb;
-            font-size: 1.5rem;
-            cursor: pointer;
-            user-select: none;
+            font-size: calc(1rem + 1vw); /* Smaller font size for sub text */
         }
 
         .center-text {
@@ -51,6 +47,7 @@
             white-space: nowrap;
             margin: 5px;
             display: inline-block;
+            font-size: calc(1rem + 1vw); /* Responsive font size for animated texts */
             animation: fadeIn 1s forwards, wave 1s infinite 1s, blinkColor 1s infinite 1s;
         }
 
@@ -92,8 +89,8 @@
         const container = document.querySelector('.container');
         let posX = Math.random() * (window.innerWidth - textElement.offsetWidth);
         let posY = Math.random() * (window.innerHeight - textElement.offsetHeight);
-        let velocityX = 3;
-        let velocityY = 3;
+        let velocityX = window.innerWidth < 768 ? 1 : 3; // Slower speed on smaller screens
+        let velocityY = window.innerHeight < 768 ? 1 : 3; // Slower speed on smaller screens
         const margin = 10;
         const texts = ["COOK SOME NOODLE", "EAT SOME JUNK FOOD", "GO GET A LIFE", "GO TOUCH SOME GRASS"];
 
@@ -133,17 +130,10 @@
                 let newText = document.createElement('div');
                 newText.className = 'center-text';
                 newText.innerText = texts[i];
-                newText.style.fontSize = `${4 + i * 0.5}rem`;
                 newText.style.animationDelay = `${i * 0.5}s, ${i * 0.5 + 1}s, ${i * 0.5 + 1}s`;
                 container.appendChild(newText);
             }
         });
-
-        textElement.style.left = `${posX}px`;
-        textElement.style.top = `${posY}px`;
-
-        subTextElement.style.left = `${posX + textElement.offsetWidth / 2 - subTextElement.offsetWidth / 2}px`;
-        subTextElement.style.top = `${posY + textElement.offsetHeight + margin}px`;
 
         requestAnimationFrame(moveText);
     </script>
