@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Senseless Elden Ring</title>
+    <title>Go Touch Some Grass</title>
     <style>
         body, html {
             height: 100%;
@@ -24,6 +24,7 @@
             justify-content: center;
             align-items: center;
             flex-wrap: wrap;
+            text-align: center;
         }
 
         #funnyText {
@@ -46,14 +47,36 @@
             position: relative;
             color: #61dafb;
             user-select: none;
-            animation: flash 0.5s infinite;
+            opacity: 0;
+            white-space: nowrap;
             margin: 5px;
+            display: inline-block;
+            animation: fadeIn 1s forwards, wave 1s infinite 1s, blinkColor 1s infinite 1s;
         }
 
-        @keyframes flash {
-            0% { opacity: 1; }
-            50% { opacity: 0; }
-            100% { opacity: 1; }
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes wave {
+            0% { transform: translateY(0); }
+            25% { transform: translateY(-10px); }
+            50% { transform: translateY(0); }
+            75% { transform: translateY(10px); }
+            100% { transform: translateY(0); }
+        }
+
+        @keyframes blinkColor {
+            0% { color: #ff0000; }
+            25% { color: #ff8000; }
+            50% { color: #00ff00; }
+            75% { color: #0000ff; }
+            100% { color: #ff00ff; }
         }
     </style>
 </head>
@@ -72,10 +95,10 @@
         let velocityX = 3;
         let velocityY = 3;
         const margin = 10;
-        let colors = ['#ff0000', '#ff8000', '#ffff00', '#00ff00', '#0000ff', '#8000ff', '#ff00ff'];
         const texts = ["COOK SOME NOODLE", "EAT SOME JUNK FOOD", "GO GET A LIFE", "GO TOUCH SOME GRASS"];
 
         function getRandomColor() {
+            const colors = ['#ff0000', '#ff8000', '#ffff00', '#00ff00', '#0000ff', '#8000ff', '#ff00ff'];
             return colors[Math.floor(Math.random() * colors.length)];
         }
 
@@ -106,13 +129,12 @@
         textElement.addEventListener('click', function() {
             textElement.style.display = 'none';
             subTextElement.style.display = 'none';
-            for (let i = 0; i < 4; i++) {
+            for (let i = 0; i < texts.length; i++) {
                 let newText = document.createElement('div');
                 newText.className = 'center-text';
                 newText.innerText = texts[i];
                 newText.style.fontSize = `${4 + i * 0.5}rem`;
-                newText.style.color = getRandomColor();
-                newText.style.animation = `flash ${Math.random() * 1 + 0.5}s infinite`;
+                newText.style.animationDelay = `${i * 0.5}s, ${i * 0.5 + 1}s, ${i * 0.5 + 1}s`;
                 container.appendChild(newText);
             }
         });
