@@ -34,7 +34,7 @@
             font-weight: 700;
         }
 
-        input[type="file"], button {
+        input[type="file"], button, select {
             margin: 10px;
             padding: 10px 15px;
             font-size: 16px;
@@ -75,6 +75,10 @@
             text-align: center;
             border-radius: 5px;
         }
+
+        .history-container {
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -84,6 +88,12 @@
         <button onclick="convertImage()">Chuyển đổi</button>
         <div id="progress-bar"><div id="progress">0%</div></div>
         <div id="text-output"></div>
+        <div class="history-container">
+            <select id="history-select" onchange="showSelectedHistory()">
+                <option value="">Chọn thời gian</option>
+            </select>
+            <div id="selected-history"></div>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.1.0/dist/tesseract.min.js"></script>
@@ -101,6 +111,7 @@
                     document.getElementById('text-output').innerText = text;
                     document.getElementById('progress').style.width = '100%';
                     document.getElementById('progress').innerText = 'Hoàn thành!';
+                    saveToHistory(text);
                 })
                 .catch(error => {
                     console.error(error);
@@ -117,6 +128,41 @@
                 document.getElementById('progress').innerText = `${progress}%`;
             }
         }
+
+        function saveToHistory(text) {
+            const now = new Date();
+            const timestamp = now.toLocaleString();
+            let history = JSON.parse(localStorage.getItem('ocrHistory')) || [];
+            history.push({ text, timestamp });
+            localStorage.setItem('ocrHistory', JSON.stringify(history));
+            updateHistoryDropdown();
+        }
+
+        function updateHistoryDropdown() {
+            const history = JSON.parse(localStorage.getItem('ocrHistory')) || [];
+            const select = document.getElementById('history-select');
+            select.innerHTML = '<option value="">Chọn thời gian</option>';
+            history.forEach((item, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.innerText = item.timestamp;
+                select.appendChild(option);
+            });
+        }
+
+        function showSelectedHistory() {
+            const select = document.getElementById('history-select');
+            const index = select.value;
+            if (index !== '') {
+                const history = JSON.parse(localStorage.getItem('ocrHistory')) || [];
+                const selectedHistory = history[index].text;
+                document.getElementById('selected-history').innerText = selectedHistory;
+            } else {
+                document.getElementById('selected-history').innerText = '';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', updateHistoryDropdown);
     </script>
 </body>
 </html>
