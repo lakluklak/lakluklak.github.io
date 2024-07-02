@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phone/Email Catcher</title>
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+        }
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+            transition: transform 0.3s ease-in-out;
+        }
+        .container:hover {
+            transform: translateY(-5px);
+        }
+        h1 {
+            margin-top: 0;
+            color: #007bff;
+            font-weight: 700;
+        }
+        textarea, button {
+            margin: 10px 0;
+            padding: 10px 15px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            width: calc(100% - 30px);
+        }
+        textarea {
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            resize: vertical;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 6px rgba(0, 123, 255, 0.5);
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Phone/Email Catcher</h1>
+        <textarea id="inputText" placeholder="Nhập đoạn text chứa thông tin..."></textarea>
+        <br><br>
+        <button onclick="extractData()">Lọc và Lấy Dữ liệu</button>
+        <table id="resultTable">
+            <thead>
+                <tr>
+                    <th>Số Điện Thoại</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function extractData() {
+            const inputText = document.getElementById('inputText').value.trim();
+            const lines = inputText.split(/\n/);
+            const phonePattern = /(\+?\d[\d -]{8,}\d)/g;
+            const emailPattern = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g;
+
+            let phones = [];
+            let emails = [];
+
+            lines.forEach(line => {
+                let phoneMatches = line.match(phonePattern);
+                let emailMatches = line.match(emailPattern);
+
+                if (phoneMatches) {
+                    phoneMatches = phoneMatches.map(phone => phone.replace(/^\+84/, '0'));
+                    phones.push(...phoneMatches);
+                }
+                if (emailMatches) {
+                    emails.push(...emailMatches);
+                }
+            });
+
+            let tbody = document.getElementById('resultTable').getElementsByTagName('tbody')[0];
+            tbody.innerHTML = '';
+            let maxRows = Math.max(phones.length, emails.length);
+
+            for (let i = 0; i < maxRows; i++) {
+                let row = tbody.insertRow();
+                let cell1 = row.insertCell(0);
+                let cell2 = row.insertCell(1);
+                cell1.innerHTML = phones[i] || '';
+                cell2.innerHTML = emails[i] || '';
+            }
+        }
+    </script>
+</body>
+</html>
