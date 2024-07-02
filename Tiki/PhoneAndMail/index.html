@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phone/Email Catcher</title>
+    <title>Extractor Tool</title>
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
@@ -78,7 +78,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Phone/Email Catcher</h1>
+        <h1>Extractor Tool</h1>
         <textarea id="inputText" placeholder="Nhập đoạn text chứa thông tin..."></textarea>
         <br><br>
         <button onclick="extractData()">Lọc và Lấy Dữ liệu</button>
@@ -98,7 +98,7 @@
         function extractData() {
             const inputText = document.getElementById('inputText').value.trim();
             const lines = inputText.split(/\n/);
-            const phonePattern = /(\+?\d[\d -]{8,}\d)/g;
+            const phonePattern = /(\+?\d[\d -]{8,}\d)|(\b(1800|1900)\d{4,}\b)/g;
             const emailPattern = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g;
 
             let phones = [];
@@ -109,7 +109,7 @@
                 let emailMatches = line.match(emailPattern);
 
                 if (phoneMatches) {
-                    phoneMatches = phoneMatches.map(phone => phone.replace(/^\+84/, '0'));
+                    phoneMatches = phoneMatches.map(phone => phone.replace(/^\+84/, '09'));
                     phones.push(...phoneMatches);
                 }
                 if (emailMatches) {
