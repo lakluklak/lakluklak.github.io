@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trích xuất dữ liệu sản phẩm</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: vertical;
+        }
+        button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .copy-icon {
+            cursor: pointer;
+            margin-left: 5px;
+            width: 16px;
+            height: 16px;
+            filter: invert(42%) sepia(68%) saturate(442%) hue-rotate(94deg) brightness(92%) contrast(90%);
+        }
+        .tooltip {
+            visibility: hidden;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .copy-icon:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            position: relative;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .copy-notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: none;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <h1>Trích xuất dữ liệu sản phẩm</h1>
+    <textarea id="inputData" rows="10" placeholder="Nhập dữ liệu sản phẩm tại đây..."></textarea><br>
+    <button onclick="extractData()">Trích xuất dữ liệu</button>
+    <img src="https://img.icons8.com/ios-glyphs/30/4CAF50/copy.png" class="copy-icon" onclick="copyTable()" alt="Copy table">
+    <span class="tooltip">Copy toàn bộ</span>
+
+    <table id="resultTable">
+        <thead>
+            <tr>
+                <th>Tên sản phẩm <img src="https://img.icons8.com/ios-glyphs/30/4CAF50/copy.png" class="copy-icon" onclick="copyColumn(0)" alt="Copy column"><span class="tooltip">Copy cột</span></th>
+                <th>ID <img src="https://img.icons8.com/ios-glyphs/30/4CAF50/copy.png" class="copy-icon" onclick="copyColumn(1)" alt="Copy column"><span class="tooltip">Copy cột</span></th>
+                <th>SKU <img src="https://img.icons8.com/ios-glyphs/30/4CAF50/copy.png" class="copy-icon" onclick="copyColumn(2)" alt="Copy column"><span class="tooltip">Copy cột</span></th>
+                <th>MSKU <img src="https://img.icons8.com/ios-glyphs/30/4CAF50/copy.png" class="copy-icon" onclick="copyColumn(3)" alt="Copy column"><span class="tooltip">Copy cột</span></th>
+                <th>PSKU <img src="https://img.icons8.com/ios-glyphs/30/4CAF50/copy.png" class="copy-icon" onclick="copyColumn(4)" alt="Copy column"><span class="tooltip">Copy cột</span></th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <div id="copyNotification" class="copy-notification">Đã copy thành công!</div>
+    <script>
+        function extractData() {
+            const inputData = document.getElementById('inputData').value;
+            const lines = inputData.split('\n');
+            const deliveryModels = ["CrossBorder", "Dropship", "FBT", "SD", "product"];
+            const products = [];
+            let currentProduct = {};
+            let hasValidData = false;
+
+            lines.forEach(line => {
+                const trimmedLine = line.trim();
+                if (trimmedLine === '') {
+                    if (hasValidData) {
+                        products.push(currentProduct);
+                    }
+                    currentProduct = {};
+                    hasValidData = false;
+                } else if (deliveryModels.some(model => trimmedLine.startsWith(model))) {
+                    // Ignore delivery model lines
+                } else if (!trimmedLine.includes(':')) {
+                    if (!currentProduct['Tên sản phẩm']) {
+                        currentProduct['Tên sản phẩm'] = trimmedLine;
+                    }
+                } else if (trimmedLine.startsWith('ID:')) {
+                    currentProduct['ID'] = trimmedLine.split(':')[1].trim();
+                    hasValidData = true;
+                } else if (trimmedLine.startsWith('SKU:')) {
+                    currentProduct['SKU'] = trimmedLine.split(':')[1].trim();
+                } else if (trimmedLine.startsWith('MSKU:')) {
+                    currentProduct['MSKU'] = trimmedLine.split(':')[1].trim();
+                } else if (trimmedLine.startsWith('PSKU:')) {
+                    currentProduct['PSKU'] = trimmedLine.split(':')[1].trim();
+                }
+            });
+
+            if (hasValidData) {
+                products.push(currentProduct);
+            }
+
+            const tableBody = document.querySelector('#resultTable tbody');
+            tableBody.innerHTML = '';
+            products.forEach((product, index) => {
+                tableBody.innerHTML += `
+                    <tr>
+                        <td>${product['Tên sản phẩm'] || ''} <img src="https://img.icons8.com/ios-glyphs/30/4CAF50/copy.png" class="copy-icon" onclick="copyCell(${index}, 0)" alt="Copy cell"><span class="tooltip">Copy ô</span></td>
+                        <td>${product['ID'] || ''} <img src="https://img.icons8.com/ios-glyphs/30/4CAF50/copy.png" class="copy-icon" onclick="copyCell(${index}, 1)" alt="Copy cell"><span class="tooltip">Copy ô</span></td>
+                        <td>${product['SKU'] || ''} <img src="https://img.icons8.com/ios-glyphs/30/4CAF50/copy.png" class="copy-icon" onclick="copyCell(${index}, 2)" alt="Copy cell"><span class="tooltip">Copy ô</span></td>
+                        <td>${product['MSKU'] || ''} <img src="https://img.icons8.com/ios-glyphs/30/4CAF50/copy.png" class="copy-icon" onclick="copyCell(${index}, 3)" alt="Copy cell"><span class="tooltip">Copy ô</span></td>
+                        <td>${product['PSKU'] || ''} <img src="https://img.icons8.com/ios-glyphs/30/4CAF50/copy.png" class="copy-icon" onclick="copyCell(${index}, 4)" alt="Copy cell"><span class="tooltip">Copy ô</span></td>
+                        <td><img src="https://img.icons8.com/ios-glyphs/30/4CAF50/copy.png" class="copy-icon" onclick="copyRow(${index})" alt="Copy row"><span class="tooltip">Copy dòng</span></td>
+                    </tr>
+                `;
+            });
+        }
+
+        function copyToClipboard(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            showCopyNotification();
+        }
+
+        function showCopyNotification() {
+            const notification = document.getElementById('copyNotification');
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 2000);
+        }
+
+        function copyCell(row, col) {
+            const table = document.getElementById('resultTable');
+            const cell = table.rows[row + 1].cells[col].innerText;
+            copyToClipboard(cell);
+        }
+
+        function copyRow(row) {
+            const table = document.getElementById('resultTable');
+            const cells = table.rows[row + 1].cells;
+            const rowData = Array.from(cells).map(cell => cell.innerText).join('\t');
+            copyToClipboard(rowData);
+        }
+
+        function copyColumn(col) {
+            const table = document.getElementById('resultTable');
+            let columnData = '';
+            for (let i = 1; i < table.rows.length; i++) {
+                columnData += table.rows[i].cells[col].innerText + '\n';
+            }
+            copyToClipboard(columnData);
+        }
+
+        function copyTable() {
+            const table = document.getElementById('resultTable');
+            let tableData = '';
+            for (let i = 0; i < table.rows.length; i++) {
+                const cells = table.rows[i].cells;
+                tableData += Array.from(cells).map(cell => cell.innerText).join('\t') + '\n';
+            }
+            copyToClipboard(tableData);
+        }
+    </script>
+</body>
+</html>
