@@ -66,11 +66,27 @@
       transform: scale(1.05);
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
+
+    .search-container {
+      margin-bottom: 20px;
+    }
+
+    .search-input {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 100%;
+      box-sizing: border-box;
+      font-size: 1rem;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Lakluklak's GITHUB</h1>
+    <div class="search-container">
+      <input type="text" class="search-input" placeholder="Nhập từ khóa để tìm kiếm...">
+    </div>
     <div class="link-container">
       <a href="https://lakluklak.github.io/Tiki/URLEncDec/">URL Enc/Decoder (v1)</a>
       <a href="https://lakluklak.github.io/Tiki/URLDecoder/">URL Decoder v2</a>
@@ -89,6 +105,18 @@
 
   <script>
     $(document).ready(function() {
+      $('.search-input').on('input', function() {
+        var searchText = $(this).val().toLowerCase();
+        $('.link-container a').each(function() {
+          var text = $(this).text().toLowerCase();
+          if (text.includes(searchText)) {
+            $(this).show();
+          } else {
+            $(this).hide();
+          }
+        });
+      });
+
       $('a').click(function(e) {
         e.preventDefault();
         var targetUrl = $(this).attr('href');
