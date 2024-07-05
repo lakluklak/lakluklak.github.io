@@ -19,7 +19,7 @@
       transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
       transform-origin: center center;
     }
-    
+
     .container {
       max-width: 800px;
       margin: 50px auto;
@@ -28,38 +28,43 @@
       border-radius: 10px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
     }
-    
+
     h1 {
       text-align: center;
       color: #007bff;
       margin-top: 0;
       font-size: 2.5rem;
     }
-    
+
     .link-container {
       display: flex;
       flex-direction: column;
       align-items: center;
       margin-top: 30px;
+      max-height: 500px;
+      overflow-y: auto;
+      padding-right: 10px;
     }
-    
+
     a {
       display: block;
       text-decoration: none;
       color: #007bff;
       font-weight: 600;
       margin-bottom: 15px;
-      transition: color 0.3s, transform 0.3s, box-shadow 0.3s; /* Cập nhật */
+      transition: color 0.3s, transform 0.3s, box-shadow 0.3s;
       padding: 8px 16px;
       border-radius: 5px;
       background-color: #f5f5f5;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0); /* Cập nhật */
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0);
+      width: 100%;
+      text-align: center;
     }
-    
+
     a:hover, a:focus {
       color: #0056b3;
       transform: scale(1.05);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Cập nhật */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
   </style>
 </head>
@@ -85,19 +90,14 @@
   <script>
     $(document).ready(function() {
       $('a').click(function(e) {
-        e.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
-        var targetUrl = $(this).attr('href'); // Lấy URL mục tiêu từ liên kết được nhấp
-        
-        // Thực hiện hiệu ứng fade out
+        e.preventDefault();
+        var targetUrl = $(this).attr('href');
         $('body').css('opacity', '0');
-        
-        // Sau khi hiệu ứng hoàn tất, chuyển hướng đến URL mục tiêu
         setTimeout(function() {
           window.location.href = targetUrl;
-        }, 500); // Đợi 500ms cho hiệu ứng hoàn tất
+        }, 500);
       });
-      
-      // Kích hoạt hiệu ứng fade in & scale up khi trang được tải
+
       $('body').css({
         'opacity': '1',
         'transform': 'scale(1)'
