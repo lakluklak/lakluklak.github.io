@@ -16,7 +16,7 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
+            max-width: 800px;
             margin: 0 auto;
         }
         .image-box {
@@ -36,10 +36,11 @@
         }
         .buttons {
             margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
         }
         .buttons button {
             padding: 10px 20px;
-            margin: 0 10px;
             cursor: pointer;
             background-color: #4CAF50;
             color: white;
@@ -77,6 +78,8 @@
             <button onclick="flipHorizontal()">Flip Horizontal</button>
             <button onclick="rotateLeft()">Rotate Left</button>
             <button onclick="rotateRight()">Rotate Right</button>
+            <button onclick="zoomIn()">Zoom In</button>
+            <button onclick="zoomOut()">Zoom Out</button>
         </div>
     </div>
 
@@ -84,6 +87,7 @@
         let flipV = 1;
         let flipH = 1;
         let rotate = 0;
+        let zoom = 1;
 
         function loadImage(event) {
             const image = document.getElementById('image');
@@ -96,6 +100,7 @@
             flipV = 1;
             flipH = 1;
             rotate = 0;
+            zoom = 1;
             updateTransform();
         }
 
@@ -119,9 +124,22 @@
             updateTransform();
         }
 
+        function zoomIn() {
+            zoom += 0.25;
+            updateTransform();
+        }
+
+        function zoomOut() {
+            zoom -= 0.25;
+            if (zoom < 0.25) {
+                zoom = 0.25;
+            }
+            updateTransform();
+        }
+
         function updateTransform() {
             const image = document.getElementById('image');
-            image.style.transform = `scale(${flipH}, ${flipV}) rotate(${rotate}deg)`;
+            image.style.transform = `scale(${zoom * flipH}, ${zoom * flipV}) rotate(${rotate}deg)`;
         }
     </script>
 </body>
