@@ -120,46 +120,53 @@
     </table>
 
     <div id="message" class="message-container"></div>
+
     <script>
         function extractData() {
-            const inputData = document.getElementById('inputData').value;
-            const lines = inputData.split('\n');
-            const productTableBody = document.getElementById('productTableBody');
-            productTableBody.innerHTML = '';
+            const inputText = document.getElementById('inputData').value;
+            const products = inputText.split('\n\n');
+            const productData = [];
+            let currentPSKU = null;
+            let previousProductName = '';
+            const keywords = ['notification', 'Tồn có thể bán', 'Giá bán', 'Phí Tiki thu', 'Lợi nhuận', 'Thao tác'];
 
-            let productName = '';
-            let sku = '';
-            let psku = '';
-            let nextLineProductName = false;
-            const deliveryModels = ['CrossBorder', 'Dropship', 'FBT', 'SD'];
+            products.forEach(product => {
+                const lines = product.split('\n');
+                const productNameLine = lines.find(line => {
+                    return !line.startsWith('SKU:') && !line.startsWith('PSKU:') && line.trim().length > 0 && !keywords.some(keyword => line.includes(keyword));
+                });
+                const productName = productNameLine ? productNameLine.trim() : '';
+                const skuLine = lines.find(line => line.startsWith('SKU:'));
+                const pskuLine = lines.find(line => line.startsWith('PSKU:'));
+                const sku = skuLine ? skuLine.split('SKU: ')[1].trim() : '';
+                const psku = pskuLine ? pskuLine.split('PSKU: ')[1].trim() : '';
 
-            lines.forEach(line => {
-                if (line.startsWith('SKU:')) {
-                    sku = line.split('SKU:')[1].trim();
-                } else if (line.startsWith('PSKU:')) {
-                    psku = line.split('PSKU:')[1].trim();
-                } else if (!deliveryModels.some(model => line.includes(model)) && line.trim() !== '' && !nextLineProductName) {
-                    // If the line does not contain a delivery model and is not empty and we are not expecting the next line to be a product name abbreviation
-                    productName = line.trim();
-                    nextLineProductName = true;
-                } else if (nextLineProductName) {
-                    // This line is the product name abbreviation, skip it
-                    nextLineProductName = false;
+                if (psku) {
+                    currentPSKU = psku;
+                    previousProductName = productName.split('-')[0].trim();
                 }
 
-                if (sku && productName && !nextLineProductName) {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${productName} <img src="https://img.icons8.com/ios-glyphs/30/000000/copy.png" class="copy-icon copy-icon-cell" onclick="copyCell(this)" title="Copy Cell"/></td>
-                        <td>${sku} <img src="https://img.icons8.com/ios-glyphs/30/000000/copy.png" class="copy-icon copy-icon-cell" onclick="copyCell(this)" title="Copy Cell"/></td>
-                        <td>${psku} <img src="https://img.icons8.com/ios-glyphs/30/000000/copy.png" class="copy-icon copy-icon-cell" onclick="copyCell(this)" title="Copy Cell"/></td>
-                        <td><img src="https://img.icons8.com/ios-glyphs/30/000000/copy.png" class="copy-icon copy-icon-row" onclick="copyRow(this)" title="Copy Row"/></td>
-                    `;
-                    productTableBody.appendChild(row);
-
-                    productName = '';
-                    sku = '';
+                if (productName && sku) {
+                    if (currentPSKU && productName.startsWith(previousProductName)) {
+                        productData.push({ productName, sku, psku: currentPSKU });
+                    } else {
+                        productData.push({ productName, sku, psku: psku || '' });
+                    }
                 }
+            });
+
+            const outputTable = document.getElementById('productTableBody');
+            outputTable.innerHTML = '';
+
+            productData.forEach(product => {
+                const row = outputTable.insertRow();
+                const cell1 = row.insertCell(0);
+                const cell2 = row.insertCell(1);
+                const cell3 = row.insertCell(2);
+
+                cell1.textContent = product.productName;
+                cell2.innerHTML = product.sku + '<img src="https://img.icons8.com/ios-glyphs/30/000000/copy.png" class="copy-icon copy-icon-cell" onclick="copyCell(this)" title="Copy Cell"/>';
+                cell3.innerHTML = product.psku + '<img src="https://img.icons8.com/ios-glyphs/30/000000/copy.png" class="copy-icon copy-icon-cell" onclick="copyCell(this)" title="Copy Cell"/>';
             });
         }
 
@@ -168,15 +175,6 @@
             const text = cell.innerText.trim();
             navigator.clipboard.writeText(text).then(() => {
                 showMessage('Cell data copied: ' + text);
-            });
-        }
-
-        function copyRow(icon) {
-            const row = icon.parentElement.parentElement;
-            const cells = Array.from(row.cells).slice(0, -1); // exclude the last cell (copy row icon)
-            const text = cells.map(cell => cell.innerText.trim()).join('\t');
-            navigator.clipboard.writeText(text).then(() => {
-                showMessage('Row data copied: ' + text);
             });
         }
 
@@ -191,7 +189,7 @@
         function copyTable() {
             const rows = document.querySelectorAll('#productTable tr');
             const text = Array.from(rows).map(row => {
-                const cells = Array.from(row.cells).slice(0, -1); // exclude the last cell (copy row icon)
+                const cells = Array.from(row.cells).slice(0, -1);
                 return cells.map(cell => cell.innerText.trim()).join('\t');
             }).join('\n');
             navigator.clipboard.writeText(text).then(() => {
