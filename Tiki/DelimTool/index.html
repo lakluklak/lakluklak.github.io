@@ -95,7 +95,8 @@
   <div class="container">
     <h1>Công Cụ Chuyển Đổi Dữ Liệu Comma</h1>
     <label for="columnData">Column Data:</label>
-    <textarea id="columnData" placeholder="Paste data hàng dọc vào đây..." oninput="convertData()"></textarea>
+    <textarea id="columnData" placeholder="Nhập dữ liệu vào đây..." oninput="convertData()"></textarea>
+
     <label for="delimiter">Chuyển Đổi Thành:</label>
     <select id="delimiter" onchange="convertData()">
       <option value="comma">Comma (,)</option>
@@ -104,6 +105,11 @@
       <option value="space">Spaces</option>
       <option value="newline">New Line</option>
     </select>
+	<br>
+    <label>
+      <input type="checkbox" id="addSpaceAfterDelimiter" onchange="convertData()"> Thêm khoảng trắng sau mỗi dấu phân cách
+    </label>
+
     <textarea id="output" onclick="copyOutput()" readonly>Kết quả sẽ trả ra tại đây...</textarea>
 
     <div id="copyPopup" class="popup">
@@ -112,35 +118,51 @@
 
     <script>
       function convertData() {
-        var columnData = document.getElementById("columnData").value.trim();
-        var delimiter = document.getElementById("delimiter").value;
-        var delimitedData = "";
+        var columnData = document.getElementById("columnData").value;
 
+        // Loại bỏ khoảng trắng ở cuối các dòng trong trường hợp nhập hàng dọc
+        var cleanedData = columnData.split('\n').map(function(item) {
+          return item.trim(); // Xóa khoảng trắng đầu và cuối của từng dòng
+        }).join('\n'); // Gộp lại
+
+        var delimiter = document.getElementById("delimiter").value;
+        var addSpaceAfterDelimiter = document.getElementById("addSpaceAfterDelimiter").checked;
+
+        // Tách các giá trị dựa trên các ký tự đặc biệt
+        var values = cleanedData.split(/[\n,;| ]+/).filter(Boolean); // Loại bỏ các mục rỗng
+
+        // Gán lại kết quả dựa trên lựa chọn delimiter
+        var delimitedData = "";
         if (delimiter === "comma") {
-          delimitedData = columnData.replace(/\n/g, ",");
+          delimitedData = values.join(addSpaceAfterDelimiter ? ", " : ",");
         } else if (delimiter === "semicolon") {
-          delimitedData = columnData.replace(/\n/g, ";");
+          delimitedData = values.join(addSpaceAfterDelimiter ? "; " : ";");
         } else if (delimiter === "pipe") {
-          delimitedData = columnData.replace(/\n/g, "|");
+          delimitedData = values.join(addSpaceAfterDelimiter ? "| " : "|");
         } else if (delimiter === "space") {
-          delimitedData = columnData.replace(/\n/g, " ");
+          delimitedData = values.join(" "); // Không thêm khoảng trắng
         } else if (delimiter === "newline") {
-          delimitedData = columnData;
+          delimitedData = values.join("\n"); // Không thêm khoảng trắng
         }
 
         document.getElementById("output").textContent = delimitedData;
       }
       
-       function copyOutput() {
+      function copyOutput() {
         var output = document.getElementById("output");
-        output.select();
+        // Sử dụng một textarea tạm thời để sao chép
+        var tempTextArea = document.createElement('textarea');
+        tempTextArea.value = output.textContent;
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
         document.execCommand("copy");
+        document.body.removeChild(tempTextArea);
 
-        // Show the copy popup
+        // Hiện popup thông báo
         var copyPopup = document.getElementById("copyPopup");
         copyPopup.style.display = "block";
 
-        // Hide the popup after 1.5 seconds
+        // Ẩn popup sau 1.5 giây
         setTimeout(function() {
           copyPopup.style.display = "none";
         }, 1500);
