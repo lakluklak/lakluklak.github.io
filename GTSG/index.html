@@ -4,11 +4,10 @@
                 document.getElementById('result').textContent = "Kết quả: ";
                 return;
             }
-            const lines = input.split('\
-');
+            const lines = input.split('\n');
             let results = [];
             lines.forEach(line => {
-                line = line.replace(/\\$/g, '0x');
+                line = line.replace(/\$/g, '0x');
 
                 try {
                     let result = eval(line);
@@ -22,8 +21,6 @@
                 }
             });
 
-            document.getElementById('result').textContent = "Kết quả:\
-" + results.join('\
-');
+            document.getElementById('result').textContent = "Kết quả:\n" + results.join('\n');
         }
         document.getElementById('inputData').addEventListener('input', calculate);</script></body></html>
